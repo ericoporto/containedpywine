@@ -16,5 +16,5 @@ jobs:
       uses: ericoporto/gp-docker-action@1.6.0
       with:
         github-token: ${{ secrets.MY_SECRET }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-        image-name: containedpywine # Provide Docker image name
-        image-tag: latest # Provide Docker image tag
+        image-name: containedpywine # Docker image name
+        image-tag: latest # Docker image tag
