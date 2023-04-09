@@ -10,7 +10,7 @@ ARG PYINSTALLER_VERSION=5.9
 RUN set -x \
     && dpkg --add-architecture i386 \
     && apt-get update -qy \
-    && apt-get install gpg-agent rename -y \
+    && apt-get install git gpg-agent rename -y \
     && apt-get install --no-install-recommends -qfy apt-transport-https software-properties-common wget \
     && wget -nv https://dl.winehq.org/wine-builds/winehq.key \
     && apt-key add winehq.key \
