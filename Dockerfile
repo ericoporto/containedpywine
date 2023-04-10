@@ -22,11 +22,8 @@ RUN set -x \
     && chmod +x winetricks \
     && mv winetricks /usr/local/bin
 
-
-ENV WINEPREFIX /wine
-RUN xvfb-run -a winetricks -q dotnet40 && xvfb-run -a winetricks -q dotnet45 && xvfb-run -a winetricks -q dotnet46 && rm -rf /tmp/.wine-*
-
 # wine settings
+ENV WINEPREFIX /wine
 ENV WINEARCH win64
 ENV WINEDEBUG fixme-all
 
@@ -74,6 +71,8 @@ RUN set -x \
     && cd "$W_TMP" \
     && rename 's/_/\-/g' *.dll \
     && cp "$W_TMP"/*.dll "$W_SYSTEM64_DLLS"/
+
+RUN xvfb-run -a winetricks -q dotnet40 && xvfb-run -a winetricks -q dotnet45 && xvfb-run -a winetricks -q dotnet46 && rm -rf /tmp/.wine-*
 
 # install pyinstaller
 RUN /usr/bin/pip install pyinstaller==$PYINSTALLER_VERSION
