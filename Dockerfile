@@ -10,7 +10,7 @@ ARG PYINSTALLER_VERSION=5.9
 RUN set -x \
     && dpkg --add-architecture i386 \
     && apt-get update -qy \
-    && apt-get install git gpg-agent rename -y \
+    && apt-get install git gpg-agent xvfb rename -y \
     && apt-get install --no-install-recommends -qfy apt-transport-https software-properties-common wget \
     && wget -nv https://dl.winehq.org/wine-builds/winehq.key \
     && apt-key add winehq.key \
@@ -21,6 +21,8 @@ RUN set -x \
     && wget -nv https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
     && chmod +x winetricks \
     && mv winetricks /usr/local/bin
+
+RUN xvfb :0 -screen 0 1024x768x16 & && echo 'export DISPLAY=:0.0' >> .bashrc
 
 # wine settings
 ENV WINEARCH win64
@@ -56,8 +58,7 @@ RUN set -x \
     && (pip install --user pip || true) \
     && rm -rf /tmp/.wine-*
 
-RUN winetricks -q dotnet45 && rm -rf /tmp/.wine-*
-RUN winetricks -q dotnet46 && rm -rf /tmp/.wine-*
+RUN winetricks -q dotnet45 && winetricks -q dotnet46 && rm -rf /tmp/.wine-*
 
 ENV W_DRIVE_C=/wine/drive_c
 ENV W_WINDIR_UNIX="$W_DRIVE_C/windows"
