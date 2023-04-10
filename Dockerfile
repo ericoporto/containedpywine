@@ -22,8 +22,6 @@ RUN set -x \
     && chmod +x winetricks \
     && mv winetricks /usr/local/bin
 
-RUN xvfb :0 -screen 0 1024x768x16 & && echo 'export DISPLAY=:0.0' >> .bashrc
-
 # wine settings
 ENV WINEARCH win64
 ENV WINEDEBUG fixme-all
