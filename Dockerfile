@@ -32,6 +32,10 @@ ENV PYPI_URL=https://pypi.python.org/
 # PYPI index location
 ENV PYPI_INDEX_URL=https://pypi.python.org/simple
 
+RUN wget -nv https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+    && mv tini /usr/bin/tini \
+    && chmod +x /usr/bin/tini
+
 # install python in wine, using the msi packages to install, extracting
 # the files directly, since installing isn't running correctly.
 RUN set -x \
@@ -72,7 +76,10 @@ RUN set -x \
     && rename 's/_/\-/g' *.dll \
     && cp "$W_TMP"/*.dll "$W_SYSTEM64_DLLS"/
 
-RUN xvfb-run -a winetricks -q dotnet40 && xvfb-run -a winetricks -q dotnet45 && xvfb-run -a winetricks -q dotnet46 && rm -rf /tmp/.wine-*
+RUN tini -- xvfb-run -a winetricks -q dotnet40 \
+    && tini -- xvfb-run -a winetricks -q dotnet45 \
+    && tini -- xvfb-run -a winetricks -q dotnet46 \
+    && rm -rf /tmp/.wine-*
 
 # install pyinstaller
 RUN /usr/bin/pip install pyinstaller==$PYINSTALLER_VERSION
