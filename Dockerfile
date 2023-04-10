@@ -24,7 +24,7 @@ RUN set -x \
 
 
 ENV WINEPREFIX /wine
-RUN winetricks -q dotnet40 && winetricks -q dotnet45 && winetricks -q dotnet46 && rm -rf /tmp/.wine-*
+RUN xvfb-run -a winetricks -q dotnet40 && xvfb-run -a winetricks -q dotnet45 && xvfb-run -a winetricks -q dotnet46 && rm -rf /tmp/.wine-*
 
 # wine settings
 ENV WINEARCH win64
