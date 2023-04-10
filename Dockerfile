@@ -22,10 +22,13 @@ RUN set -x \
     && chmod +x winetricks \
     && mv winetricks /usr/local/bin
 
+
+ENV WINEPREFIX /wine
+RUN winetricks -q vcrun2015 && winetricks -q dotnet40 && winetricks -q dotnet45 && winetricks -q dotnet46 && rm -rf /tmp/.wine-*
+
 # wine settings
 ENV WINEARCH win64
 ENV WINEDEBUG fixme-all
-ENV WINEPREFIX /wine
 
 # PYPI repository location
 ENV PYPI_URL=https://pypi.python.org/
@@ -55,8 +58,6 @@ RUN set -x \
     && chmod +x /usr/bin/python /usr/bin/easy_install /usr/bin/pip /usr/bin/pyinstaller /usr/bin/pyi-grab_version /usr/bin/pyi-set_version /usr/bin/pyupdater \
     && (pip install --user pip || true) \
     && rm -rf /tmp/.wine-*
-
-RUN winetricks -q vcrun2015 && winetricks -q dotnet40 && winetricks -q dotnet45 && winetricks -q dotnet46 && rm -rf /tmp/.wine-*
 
 ENV W_DRIVE_C=/wine/drive_c
 ENV W_WINDIR_UNIX="$W_DRIVE_C/windows"
