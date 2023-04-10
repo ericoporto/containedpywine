@@ -56,7 +56,7 @@ RUN set -x \
     && (pip install --user pip || true) \
     && rm -rf /tmp/.wine-*
 
-RUN winetricks -q dotnet45 && winetricks -q dotnet46 && rm -rf /tmp/.wine-*
+RUN winetricks -q vcrun2015 && winetricks -q dotnet40 && winetricks -q dotnet45 && winetricks -q dotnet46 && rm -rf /tmp/.wine-*
 
 ENV W_DRIVE_C=/wine/drive_c
 ENV W_WINDIR_UNIX="$W_DRIVE_C/windows"
